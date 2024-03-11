@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha25"></script>
+<script>
+    console.log("js");
+    $(function(){ 
+        console.log("exécution du jquery");      
+        $("btRemplir").on("click", function(event) {
+            $.ajax({
+                url:"donnees.txt",
+                success: function(response) {
+                    $("#content").html(response);
+                },
+                error: function(jqXHR, status,error){
+                    $("#content").html("ERREUR AJAX : " + status);
+                }
+            })
+        });
+    })
+    //////////////////////////
+    window.addEventListener("load", function(){
+        const xhr = new XMLHttpRequest;
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4){
+                if(xhr.status == 200){
+                    document.querySelector("#content2").innerHTML = xhr.responseText;
+                } else {
+                    document.querySelector("#content2").innerHTML = "ERREUR AJAX" +  xhr.status;  
+                }
+            }
+        }
+        document.querySelector("#btRemplir2").addEventListener("click",function(){
+            xhr.send();
+        })
+    })
+
+    ///////////////////////////////////
+    window.addEventListener("load", function(){
+        document.querySelector("#btnRemplir3").addEventListener("click", function (){
+        fetch("donnees.txt") //lance une requête HTTP (comme la classe XMLHhttpRequest)
+            .then(response => response.text())
+            /*              response => response.text()
+                C'est un raccorci de function (response) { return response.text(); } 
+            */
+            .then(data=> document.querySelector("#content3").innerHTML = data);
+        })
+        fetch("donnees.txt").then(response => response.text()).then(data=>document.querySelector("#content3").innerHTML = data);
+    })
+</script>
+<style>
+    /** 
+    Selecteur CSS pour sélectionner tous les éléments HTML dont l'attribut 'id' COMMENCE PAR content
+    [id^='content']
+    Il faut utiliser ^= à la place du = 
+    */
+    #content { background-color: lightblue; width:200px; height:200px; }
+</style>
+</head>
+<body>
+    <div id="content"></div>
+    <button>Remplir</button>
+</body>
+</html>

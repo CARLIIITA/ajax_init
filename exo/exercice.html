@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // EXERCICE : faire une requête ajax lorsque l'on clique sur le titre H1 qui va récupérer
+        // le contenu du fichier info.txt qui est dans le dossier fichiers, ce contenu doit s'afficher dans la div result, 
+        //vous devez utiliser fetch
+        window.addEventListener("load",function() {
+        document.querySelector("h1").addEventListener("click", eventClick => {
+                fetch("/fichiers/info.txt")
+                .then(response => response.text())
+                .then(donnees => {
+                    var h1 = eventClick.target;
+                    h1.innerHTML = donnees;
+        })
+                     .catch(error => console.log("Erreur AJAX " + error));
+    })
+})
+    </script>
+</head>
+<body>
+<h1>Exercice 1</h1>
+<div id="result">
+    Le résultat de la requête AJAX apparaitra ici
+</div>
+</body>
+</html>
